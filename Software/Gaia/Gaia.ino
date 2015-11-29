@@ -19,6 +19,10 @@
 // I2C address for HIH6130
 #define HIH6130ADDRESS (0x27)
 
+// Determines what is printed to webpage
+#define PRINT_HTML_TAGS
+#define PRINT_HTML_TEXT
+
 // Wifi server and client
 LWiFiServer server(80);
 LWiFiClient client;
@@ -88,7 +92,7 @@ void loop()
     }
  
     // give the web browser time to receive the data
-    delay(1000);
+    //delay(5000);
 
     // close the connection:
     client.stop();
@@ -215,87 +219,165 @@ void readSensors()
 void printSensorStatus()
 {
   // Print a standard http response header
-  client.println("HTTP/1.1 200 OK");
-  client.println("Content-Type: text/html");
-  client.println("Connection: close");  // the connection will be closed after completion of the response
-  client.println("Refresh: 5");  // refresh the page automatically every 5 sec
-  client.println();
+//  client.println("HTTP/1.1 200 OK");
+//  client.println("Content-Type: text/html");
+//  client.println("Connection: close");  // the connection will be closed after completion of the response
+//  client.println("Refresh: 5");  // refresh the page automatically every 5 sec
+//  client.println();
   client.println("<!DOCTYPE HTML>");
   client.println("<html>");
-
+  client.println("<body>");
   // Print each of the sensor's data
 
   printSensorInfo("HUMIDITY", rht.humidity, "%");
-  client.println("<br/>");
-
   printSensorInfo("TEMPERATURE", rht.temperature, "C");
-  client.println("<br/>");
-
   printSensorInfo("LIGHT", ambientLightLux, "LUX");
-  client.println("<br/>");
-
   printSensorInfo("PRESSURE", bmpPressure, "PA");
-  client.println("<br/>");
-
+  
   // Close out the http tags
+  client.println("</body>");
   client.println("</html>");
   client.println();
 }
 
 void printSensorInfo(String sensorName, String value, String units)
 {
+  // Tag
+  client.print("<SENSOR ");
+#ifdef PRINT_HTML_TAGS
+  // Tag NAME
+  client.print("NAME=\"");
+  client.print(sensorName);
+  client.print("\" ");
+  // Tag VALUE
+  client.print("VALUE=\"");
+  client.print(value);
+  client.print("\" ");
+  // Tag UNITS
+  client.print("UNITS=\"");
+  client.print(units);
+  client.print("\">");
+#endif
+#ifdef PRINT_HTML_TEXT
   // Sensor
   client.print(sensorName);
-  client.print(" Value=\"");
+  client.print(" VALUE=\"");
   // Value
   client.print(value); 
   client.print("\" ");
-  client.print("Units=\"");
+  client.print("UNITS=\"");
   // Units
   client.print(units);              
   client.print("\"");
+#endif
+  // Tag close
+  client.print("</SENSOR>");
+  client.println("<br/>");
 }
 
 void printSensorInfo(String sensorName, int value, String units)
 {
+   // Tag
+  client.print("<SENSOR ");
+#ifdef PRINT_HTML_TAGS
+  // Tag NAME
+  client.print("NAME=\"");
+  client.print(sensorName);
+  client.print("\" ");
+  // Tag VALUE
+  client.print("VALUE=\"");
+  client.print(value);
+  client.print("\" ");
+  // Tag UNITS
+  client.print("UNITS=\"");
+  client.print(units);
+  client.print("\">");
+#endif
+#ifdef PRINT_HTML_TEXT
   // Sensor
   client.print(sensorName);
-  client.print(" Value=\"");
+  client.print(" VALUE=\"");
   // Value
   client.print(value); 
   client.print("\" ");
-  client.print("Units=\"");
+  client.print("UNITS=\"");
   // Units
   client.print(units);              
   client.print("\"");
+#endif
+  // Tag close
+  client.print("</SENSOR>");
+  client.println("<br/>");
 }
 
 void printSensorInfo(String sensorName, double value, String units)
 {
+   // Tag
+  client.print("<SENSOR ");
+#ifdef PRINT_HTML_TAGS
+  // Tag NAME
+  client.print("NAME=\"");
+  client.print(sensorName);
+  client.print("\" ");
+  // Tag VALUE
+  client.print("VALUE=\"");
+  client.print(value);
+  client.print("\" ");
+  // Tag UNITS
+  client.print("UNITS=\"");
+  client.print(units);
+  client.print("\">");
+#endif
+#ifdef PRINT_HTML_TEXT
   // Sensor
   client.print(sensorName);
-  client.print(" Value=\"");
+  client.print(" VALUE=\"");
   // Value
   client.print(value); 
   client.print("\" ");
-  client.print("Units=\"");
+  client.print("UNITS=\"");
   // Units
   client.print(units);              
   client.print("\"");
+#endif
+  // Tag close
+  client.print("</SENSOR>");
+  client.println("<br/>");
 }
 
 void printSensorInfo(String sensorName, float value, String units)
 {
+  // Tag
+  client.print("<SENSOR ");
+#ifdef PRINT_HTML_TAGS
+  // Tag NAME
+  client.print("NAME=\"");
+  client.print(sensorName);
+  client.print("\" ");
+  // Tag VALUE
+  client.print("VALUE=\"");
+  client.print(value);
+  client.print("\" ");
+  // Tag UNITS
+  client.print("UNITS=\"");
+  client.print(units);
+  client.print("\">");
+#endif
+#ifdef PRINT_HTML_TEXT
   // Sensor
   client.print(sensorName);
-  client.print(" Value=\"");
+  client.print(" VALUE=\"");
   // Value
   client.print(value); 
   client.print("\" ");
-  client.print("Units=\"");
+  client.print("UNITS=\"");
   // Units
   client.print(units);              
   client.print("\"");
+#endif
+  // Tag close
+  client.print("</SENSOR>");
+  client.println("<br/>");
 }
 
 
