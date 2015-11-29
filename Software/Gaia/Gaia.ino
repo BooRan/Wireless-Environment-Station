@@ -92,7 +92,7 @@ void loop()
     }
  
     // give the web browser time to receive the data
-    //delay(5000);
+    delay(1000);
 
     // close the connection:
     client.stop();
